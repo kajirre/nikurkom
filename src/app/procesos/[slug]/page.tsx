@@ -7,8 +7,9 @@ import type { Metadata } from 'next'
 
 export const generateStaticParams = async () => allProyectoTrabajos.map((p) => ({ slug: p._raw.flattenedPath.split('/').pop() }))
 
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
-    const post = allProyectoTrabajos.find((p) => p._raw.flattenedPath.split('/').pop() === params.slug)
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+    const { slug } = await params
+    const post = allProyectoTrabajos.find((p) => p._raw.flattenedPath.split('/').pop() === slug)
     if (!post) return {}
 
     return {
@@ -21,8 +22,9 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     }
 }
 
-export default function ProcesoPage({ params }: { params: { slug: string } }) {
-    const post = allProyectoTrabajos.find((p) => p._raw.flattenedPath.split('/').pop() === params.slug)
+export default async function ProcesoPage({ params }: { params: Promise<{ slug: string }> }) {
+    const { slug } = await params
+    const post = allProyectoTrabajos.find((p) => p._raw.flattenedPath.split('/').pop() === slug)
 
     if (!post) notFound()
 

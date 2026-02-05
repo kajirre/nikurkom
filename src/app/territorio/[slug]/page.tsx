@@ -8,8 +8,9 @@ import { JsonLd } from '@/components/JsonLd'
 
 export const generateStaticParams = async () => allTerritorioPijaos.map((p) => ({ slug: p._raw.flattenedPath.split('/').pop() }))
 
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
-    const post = allTerritorioPijaos.find((p) => p._raw.flattenedPath.split('/').pop() === params.slug)
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+    const { slug } = await params
+    const post = allTerritorioPijaos.find((p) => p._raw.flattenedPath.split('/').pop() === slug)
     if (!post) return {}
 
     return {
@@ -22,8 +23,9 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     }
 }
 
-export default function TerritorioPage({ params }: { params: { slug: string } }) {
-    const post = allTerritorioPijaos.find((p) => p._raw.flattenedPath.split('/').pop() === params.slug)
+export default async function TerritorioPage({ params }: { params: Promise<{ slug: string }> }) {
+    const { slug } = await params
+    const post = allTerritorioPijaos.find((p) => p._raw.flattenedPath.split('/').pop() === slug)
 
     if (!post) notFound()
 

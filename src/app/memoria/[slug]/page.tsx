@@ -7,8 +7,9 @@ import type { Metadata } from 'next'
 
 export const generateStaticParams = async () => allArchivoMemoria.map((p: any) => ({ slug: p._raw.flattenedPath.split('/').pop() }))
 
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
-    const doc = allArchivoMemoria.find((p: any) => p._raw.flattenedPath.split('/').pop() === params.slug)
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+    const { slug } = await params
+    const doc = allArchivoMemoria.find((p: any) => p._raw.flattenedPath.split('/').pop() === slug)
     if (!doc) return {}
 
     return {
@@ -21,8 +22,9 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     }
 }
 
-export default function MemoriaDetailPage({ params }: { params: { slug: string } }) {
-    const doc = allArchivoMemoria.find((p: any) => p._raw.flattenedPath.split('/').pop() === params.slug)
+export default async function MemoriaDetailPage({ params }: { params: Promise<{ slug: string }> }) {
+    const { slug } = await params
+    const doc = allArchivoMemoria.find((p: any) => p._raw.flattenedPath.split('/').pop() === slug)
 
     if (!doc) notFound()
 

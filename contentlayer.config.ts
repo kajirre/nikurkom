@@ -122,7 +122,7 @@ export const SaberPropio = defineDocumentType(() => ({
   contentType: 'mdx',
   fields: {
     titulo: { type: 'string', required: true },
-    categoria: { type: 'enum', options: ['Artesanal', 'Medicinal', 'Pedagógico', 'Agrícola', 'Sistemas de Pensamiento'], required: true },
+    categoria: { type: 'enum', options: ['Artesanal', 'Medicinal', 'Pedagógico', 'Agrícola', 'Sistemas de Pensamiento', 'Histórico'], required: true },
     territorios_relacionados: { type: 'list', of: { type: 'string' }, required: false },
     personas_relacionadas: { type: 'list', of: { type: 'string' }, required: false },
     tipos_de_conocimiento: {

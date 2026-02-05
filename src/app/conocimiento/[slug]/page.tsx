@@ -7,8 +7,9 @@ import type { Metadata } from 'next'
 
 export const generateStaticParams = async () => allSaberPropios.map((s) => ({ slug: s._raw.flattenedPath.split('/').pop() }))
 
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
-    const post = allSaberPropios.find((s) => s._raw.flattenedPath.split('/').pop() === params.slug)
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+    const { slug } = await params
+    const post = allSaberPropios.find((s) => s._raw.flattenedPath.split('/').pop() === slug)
     if (!post) return {}
 
     return {
@@ -21,8 +22,9 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     }
 }
 
-export default function SaberDetailPage({ params }: { params: { slug: string } }) {
-    const saber = allSaberPropios.find((s) => s._raw.flattenedPath.split('/').pop() === params.slug)
+export default async function SaberDetailPage({ params }: { params: Promise<{ slug: string }> }) {
+    const { slug } = await params
+    const saber = allSaberPropios.find((s) => s._raw.flattenedPath.split('/').pop() === slug)
 
     if (!saber) notFound()
 
