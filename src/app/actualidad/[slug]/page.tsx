@@ -1,6 +1,6 @@
 import { allActualidads, allTerritorioPijaos } from 'contentlayer/generated'
 import { notFound } from 'next/navigation'
-import { useMDXComponent } from 'next-contentlayer/hooks'
+import { Mdx } from '@/components/Mdx'
 import { Breadcrumbs } from '@/components/Breadcrumbs'
 import { format, parseISO } from 'date-fns'
 import { es } from 'date-fns/locale'
@@ -34,7 +34,6 @@ export default async function ActualidadDetailPage({ params }: { params: Promise
     if (!post) notFound()
 
     const territorio = post.territorio_relacion ? allTerritorioPijaos.find((t) => t.id === post.territorio_relacion) : null
-    const MDXContent = useMDXComponent(post.body.code)
 
     const jsonLd = {
         "@context": "https://schema.org",
@@ -82,7 +81,7 @@ export default async function ActualidadDetailPage({ params }: { params: Promise
                 </header>
 
                 <div className="prose prose-stone prose-lg max-w-none prose-headings:font-serif prose-headings:font-bold">
-                    <MDXContent />
+                    <Mdx code={post.body.code} />
                 </div>
 
                 <footer className="mt-20 pt-8 border-t border-stone-100 text-[11px] text-stone-400 tracking-wide uppercase leading-loose">

@@ -1,6 +1,6 @@
 import { allArchivoMemoria, allTerritorioPijaos, allPersonaPijaos } from 'contentlayer/generated'
 import { notFound } from 'next/navigation'
-import { useMDXComponent } from 'next-contentlayer/hooks'
+import { Mdx } from '@/components/Mdx'
 import { Breadcrumbs } from '@/components/Breadcrumbs'
 import Link from 'next/link'
 import type { Metadata } from 'next'
@@ -30,8 +30,6 @@ export default async function MemoriaDetailPage({ params }: { params: Promise<{ 
 
     const territorio = doc.territorio_relacion ? allTerritorioPijaos.find((t) => t.id === doc.territorio_relacion) : null
     const persona = doc.persona_relacion ? allPersonaPijaos.find((p) => p.id === doc.persona_relacion) : null
-
-    const MDXContent = useMDXComponent(doc.body.code)
 
     return (
         <div className="max-w-4xl mx-auto py-12 px-4 font-sans">
@@ -71,7 +69,7 @@ export default async function MemoriaDetailPage({ params }: { params: Promise<{ 
                 </header>
 
                 <div className="prose prose-stone prose-lg max-w-none prose-headings:font-serif prose-headings:font-bold">
-                    <MDXContent />
+                    <Mdx code={doc.body.code} />
                 </div>
 
                 {doc.url_archivo && (

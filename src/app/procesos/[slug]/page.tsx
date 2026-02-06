@@ -1,6 +1,6 @@
 import { allTerritorioPijaos, allPersonaPijaos, allProyectoTrabajos } from 'contentlayer/generated'
 import { notFound } from 'next/navigation'
-import { useMDXComponent } from 'next-contentlayer/hooks'
+import { Mdx } from '@/components/Mdx'
 import { Breadcrumbs } from '@/components/Breadcrumbs'
 import Link from 'next/link'
 import type { Metadata } from 'next'
@@ -31,8 +31,6 @@ export default async function ProcesoPage({ params }: { params: Promise<{ slug: 
     // Navegación Contextual
     const territorio = allTerritorioPijaos.find((t) => t.id === post.territorio_relacion)
     const personasRelacionadas = allPersonaPijaos.filter((p) => post.actores_clave?.includes(p.id))
-
-    const MDXContent = useMDXComponent(post.body.code)
 
     return (
         <div className="max-w-4xl mx-auto py-12 px-4 font-sans">
@@ -74,7 +72,7 @@ export default async function ProcesoPage({ params }: { params: Promise<{ slug: 
                 </header>
 
                 <div className="prose prose-stone prose-lg max-w-none prose-headings:font-serif prose-headings:font-bold">
-                    <MDXContent />
+                    <Mdx code={post.body.code} />
                 </div>
 
                 {/* Navegación Contextual */}

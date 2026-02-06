@@ -1,6 +1,6 @@
 import { allTerritorioPijaos, allPersonaPijaos, allProyectoTrabajos, allSaberPropios, allActualidads } from 'contentlayer/generated'
 import { notFound } from 'next/navigation'
-import { useMDXComponent } from 'next-contentlayer/hooks'
+import { Mdx } from '@/components/Mdx'
 import { Breadcrumbs } from '@/components/Breadcrumbs'
 import Link from 'next/link'
 import type { Metadata } from 'next'
@@ -34,8 +34,6 @@ export default async function TerritorioPage({ params }: { params: Promise<{ slu
     const procesosRelacionados = allProyectoTrabajos.filter((p) => p.territorio_relacion === post.id)
     const saberesRelacionados = allSaberPropios.filter((s) => s.territorios_relacionados?.includes(post.id))
     const actualidadRelacionada = allActualidads.filter((a) => a.territorio_relacion === post.id)
-
-    const MDXContent = useMDXComponent(post.body.code)
 
     const jsonLd = {
         "@context": "https://schema.org",
@@ -84,7 +82,7 @@ export default async function TerritorioPage({ params }: { params: Promise<{ slu
                 </header>
 
                 <div className="prose prose-stone prose-lg max-w-none prose-headings:font-serif prose-headings:font-bold">
-                    <MDXContent />
+                    <Mdx code={post.body.code} />
                 </div>
 
                 {/* Navegación Contextual */}

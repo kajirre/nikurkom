@@ -1,6 +1,6 @@
 import { allSaberPropios, allTerritorioPijaos, allPersonaPijaos } from 'contentlayer/generated'
 import { notFound } from 'next/navigation'
-import { useMDXComponent } from 'next-contentlayer/hooks'
+import { Mdx } from '@/components/Mdx'
 import { Breadcrumbs } from '@/components/Breadcrumbs'
 import Link from 'next/link'
 import type { Metadata } from 'next'
@@ -31,8 +31,6 @@ export default async function SaberDetailPage({ params }: { params: Promise<{ sl
     // Navegación Contextual
     const territorios = allTerritorioPijaos.filter((t) => saber.territorios_relacionados?.includes(t.id))
     const personas = allPersonaPijaos.filter((p) => saber.personas_relacionadas?.includes(p.id))
-
-    const MDXContent = useMDXComponent(saber.body.code)
 
     return (
         <div className="max-w-4xl mx-auto py-12 px-4 font-sans">
@@ -79,7 +77,7 @@ export default async function SaberDetailPage({ params }: { params: Promise<{ sl
                 </header>
 
                 <div className="prose prose-stone prose-lg max-w-none prose-headings:font-serif prose-headings:font-bold">
-                    <MDXContent />
+                    <Mdx code={saber.body.code} />
                 </div>
 
                 <footer className="mt-20 pt-8 border-t border-stone-100 text-[11px] text-stone-400 tracking-wide uppercase leading-loose">
